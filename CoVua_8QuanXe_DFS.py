@@ -15,7 +15,6 @@ den = "#fff"
 vi_tri_xe = [0, 1, 2, 3, 6, 7, 4, 5]
 
 def dfs(n=8):
-    
     start = tuple()
     stack = [start]
     yield ("visit", start)
@@ -31,7 +30,6 @@ def dfs(n=8):
                 child = state + (col,)
                 stack.append(child)
                 yield ("visit", child)
-
     yield ("fail", ())
 
 
@@ -73,13 +71,13 @@ def taoFrame(parent, text, xe=None):
 
 def main():
     root = tk.Tk()
-    root.title("8 xe - BFS từng bước")
+    root.title("Cờ vua - 8 quân xe -DFS")
     root.configure(bg="#faefdb")
 
     wrap = tk.Frame(root, bg="#faefdb")
     wrap.pack(padx=20, pady=20)
 
-    left, cv_left = taoFrame(wrap, "Bàn cờ BFS (đang duyệt)")
+    left, cv_left = taoFrame(wrap, "Bàn cờ DFS")
     right, cv_right = taoFrame(wrap, "Bàn cờ theo vi_tri_xe", xe=vi_tri_xe)
 
     left.grid(row=0, column=0, padx=12, pady=12, sticky="n")
@@ -88,19 +86,19 @@ def main():
     SPEED_MS = 25
     gen = dfs(N)
 
-    def draw_on_left(state):
+    def left(state):
         veBanCo(cv_left)
         veXe(cv_left, state)
         cv_left.update_idletasks()
 
-    def ve_phai():
+    def right():
         veBanCo(cv_right)
         veXe(cv_right, vi_tri_xe)
 
     def step():
         try:
             kind, state = next(gen)
-            draw_on_left(state)
+            left(state)
             if len(state) == N and tuple(vi_tri_xe) == state:
                 return
             root.after(SPEED_MS, step)
