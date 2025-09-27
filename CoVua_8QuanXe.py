@@ -19,7 +19,8 @@ def bfs(n=8):
         state = q.popleft()
         row = len(state)
         if row == n:
-            return state  
+            if state==goal:
+                return state
         used = set(state)
         for col in range(n):
             if col not in used:
@@ -70,8 +71,7 @@ def main():
     wrap = tk.Frame(root, bg="#faefdb")
     wrap.pack(padx=20, pady=20)
 
-    loi_giai = bfs(N)
-
+    loi_giai = bfs(N,vi_tri_xe)
     steps = [loi_giai[:k] for k in range(len(loi_giai)+1)]
 
     left, cv_left=taoFrame(wrap, "Bàn cờ BFS") 
@@ -92,3 +92,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
