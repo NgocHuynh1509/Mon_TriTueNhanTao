@@ -14,16 +14,17 @@ den = "#fff"
 
 vi_tri_xe = [0, 1, 2, 3, 6, 7, 4, 5]
 
-def dfs(n=8):
+def dfs(n=8, goal=None):
     start = tuple()
+    goal=tuple(goal)
     stack = [start]
     yield ("visit", start)
     while stack:
         state = stack.pop()
         row = len(state)
         if row == n:
-            yield ("done", state)
-            continue
+            if state==goal:
+                return state  
         used = set(state)
         for col in reversed(range(n)):
             if col not in used:
@@ -84,7 +85,7 @@ def main():
     right.grid(row=0, column=1, padx=12, pady=12, sticky="n")
 
     SPEED_MS = 25
-    gen = dfs(N)
+    gen = dfs(N,vi_tri_xe)
 
     def left(state):
         veBanCo(cv_left)
@@ -99,8 +100,6 @@ def main():
         try:
             kind, state = next(gen)
             left(state)
-            if len(state) == N and tuple(vi_tri_xe) == state:
-                return
             root.after(SPEED_MS, step)
         except StopIteration:
             pass
